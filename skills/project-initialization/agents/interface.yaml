@@ -1,0 +1,8 @@
+#
+# Function Name: project-initialization
+# Description: Canonical UI metadata for the project-initialization skill.
+#
+interface:
+  display_name: "Project Initialization"
+  short_description: "Bootstrap new project scaffolds"
+  default_prompt: "Use $project-initialization to bootstrap this new project."

@@ -1,0 +1,8 @@
+#
+# Function Name: agent-interface
+# Description: Canonical UI metadata for the test-strategy skill.
+#
+interface:
+  display_name: "Test Strategy"
+  short_description: "Plan high-value test coverage"
+  default_prompt: "Use $test-strategy to design a test strategy for this change."

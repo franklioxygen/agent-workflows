@@ -1,0 +1,8 @@
+#
+# Function Name: agent-interface
+# Description: Canonical UI metadata for the release-prep skill.
+#
+interface:
+  display_name: "Release Prep"
+  short_description: "Prepare agent-workflow releases"
+  default_prompt: "Use $release-prep to prepare this agent-workflows library for release."

@@ -1,0 +1,8 @@
+#
+# Function Name: agent-interface
+# Description: Canonical UI metadata for the migration-planning skill.
+#
+interface:
+  display_name: "Migration Planning"
+  short_description: "Plan safe schema and API migrations"
+  default_prompt: "Use $migration-planning to plan a safe migration for this change."

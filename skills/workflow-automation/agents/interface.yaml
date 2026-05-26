@@ -1,0 +1,8 @@
+#
+# Function Name: agent-interface
+# Description: Canonical UI metadata for the workflow-automation skill.
+#
+interface:
+  display_name: "Workflow Automation"
+  short_description: "Route tasks through workflow prompts"
+  default_prompt: "Use $workflow-automation to select the right engineering workflow and run it for this task."

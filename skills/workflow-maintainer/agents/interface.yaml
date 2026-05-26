@@ -1,0 +1,8 @@
+#
+# Function Name: agent-interface
+# Description: Canonical UI metadata for the workflow-maintainer skill.
+#
+interface:
+  display_name: "Workflow Maintainer"
+  short_description: "Audit agent-workflow library drift"
+  default_prompt: "Use $workflow-maintainer to audit this agent-workflows library for consistency issues."

@@ -1,0 +1,8 @@
+#
+# Function Name: agent-interface
+# Description: Canonical UI metadata for the docs-maintenance skill.
+#
+interface:
+  display_name: "Docs Maintenance"
+  short_description: "Maintain workflow documentation"
+  default_prompt: "Use $docs-maintenance to update and validate this agent-workflows documentation."

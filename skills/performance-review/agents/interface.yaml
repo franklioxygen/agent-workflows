@@ -1,0 +1,8 @@
+#
+# Function Name: agent-interface
+# Description: Canonical UI metadata for the performance-review skill.
+#
+interface:
+  display_name: "Performance Review"
+  short_description: "Review code for performance risks"
+  default_prompt: "Use $performance-review to review this change for performance risks."
