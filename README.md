@@ -11,6 +11,8 @@ Reusable engineering workflows for AI coding agents.
 
 `agent-workflows` helps agents choose the right process for project initialization, feature work, bug fixes, code review, incident response, refactoring, and tech debt cleanup. The library separates workflow-specific guidance from shared safety, preflight, and validation conventions so the docs stay reusable and easier to maintain.
 
+New to the library? Start with [how-to-use-agent-workflows.md](how-to-use-agent-workflows.md).
+
 ## Quick Start
 
 Choose one workflow and follow it directly:
@@ -92,6 +94,7 @@ Use $workflow-automation to route and execute the right workflow for this task:
 ```text
 agent-workflows/
 |- README.md
+|- how-to-use-agent-workflows.md
 |- project-initialization-agent-workflow.md
 |- feature-development-agent-workflow.md
 |- bug-fix-agent-workflow.md

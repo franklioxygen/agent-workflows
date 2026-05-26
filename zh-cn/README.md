@@ -11,6 +11,8 @@ Description: agent-workflows 库根 README 的简体中文翻译。
 
 `agent-workflows` 帮助代理为项目初始化、功能开发、缺陷修复、代码评审、事故响应、重构和技术债清理选择合适流程。该库将工作流专属指导与共享的安全规则、预检和验证约定分离，使文档更易复用，也更容易维护。
 
+第一次使用？请先阅读 [how-to-use-agent-workflows.md](how-to-use-agent-workflows.md)。
+
 `zh-cn/` 目录保存的是中文文档镜像。实际脚本、代理元数据和可安装技能资产仍位于上层原始目录中。
 
 ## 快速开始
@@ -94,6 +96,7 @@ Description: agent-workflows 库根 README 的简体中文翻译。
 ```text
 agent-workflows/zh-cn/
 |- README.md
+|- how-to-use-agent-workflows.md
 |- project-initialization-agent-workflow.md
 |- feature-development-agent-workflow.md
 |- bug-fix-agent-workflow.md
