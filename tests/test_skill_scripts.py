@@ -154,6 +154,121 @@ class TestSkillScripts(unittest.TestCase):
         self.assertEqual(len(report["signals"]), 1)
         self.assertEqual(report["signals"][0]["line"], 2)
 
+    def test_evaluation_summary_computes_task_and_run_metrics(self) -> None:
+        evaluation = load_script(
+            "evaluation_summary_script",
+            "evaluation/scripts/summarize_results.py",
+        )
+        rows = [
+            {
+                "task_id": "task-1",
+                "condition": "single_prompt",
+                "run_id": 1,
+                "passed": True,
+                "validation_passed": True,
+                "human_accepted": False,
+                "regression": False,
+                "rework_required": True,
+                "requirements_traceability": False,
+                "cycle_time_seconds": 100,
+            },
+            {
+                "task_id": "task-1",
+                "condition": "single_prompt",
+                "run_id": 2,
+                "passed": False,
+                "validation_passed": False,
+                "human_accepted": False,
+                "regression": True,
+                "rework_required": True,
+                "requirements_traceability": False,
+                "cycle_time_seconds": 120,
+            },
+            {
+                "task_id": "task-1",
+                "condition": "workflow_guided",
+                "run_id": 1,
+                "passed": True,
+                "validation_passed": True,
+                "human_accepted": True,
+                "regression": False,
+                "rework_required": False,
+                "requirements_traceability": True,
+                "cycle_time_seconds": 140,
+            },
+            {
+                "task_id": "task-1",
+                "condition": "workflow_guided",
+                "run_id": 2,
+                "passed": True,
+                "validation_passed": True,
+                "human_accepted": True,
+                "regression": False,
+                "rework_required": False,
+                "requirements_traceability": True,
+                "cycle_time_seconds": 150,
+            },
+        ]
+
+        summary = evaluation.summarize(rows)
+
+        self.assertEqual(summary["single_prompt"]["task_count"], 1)
+        self.assertEqual(summary["single_prompt"]["run_count"], 2)
+        self.assertEqual(summary["single_prompt"]["pass_at_1"], 1.0)
+        self.assertEqual(summary["single_prompt"]["pass_hat_k"], 0.0)
+        self.assertEqual(summary["single_prompt"]["regression_rate"], 0.5)
+        self.assertEqual(summary["workflow_guided"]["pass_hat_k"], 1.0)
+        self.assertEqual(summary["workflow_guided"]["human_acceptance_rate"], 1.0)
+        self.assertEqual(summary["workflow_guided"]["requirements_traceability_rate"], 1.0)
+
+    def test_evaluation_loader_rejects_missing_fields(self) -> None:
+        evaluation = load_script(
+            "evaluation_summary_loader_script",
+            "evaluation/scripts/summarize_results.py",
+        )
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            results = Path(tmp_dir) / "results.jsonl"
+            results.write_text(
+                json.dumps(
+                    {
+                        "task_id": "task-1",
+                        "condition": "single_prompt",
+                    }
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            with self.assertRaises(ValueError):
+                evaluation.load_results(results)
+
+    def test_chart_score_mapping_uses_expected_normalization(self) -> None:
+        chart = load_script(
+            "evaluation_chart_scores_script",
+            "evaluation/scripts/generate_chart_scores.py",
+        )
+        summary = {
+            "single_prompt": {
+                "pass_at_1": 0.6,
+                "pass_hat_k": 0.4,
+                "regression_rate": 0.3,
+                "rework_rate": 0.5,
+                "requirements_traceability_rate": 0.2,
+            },
+            "workflow_guided": {
+                "pass_at_1": 0.8,
+                "pass_hat_k": 0.7,
+                "regression_rate": 0.1,
+                "rework_rate": 0.2,
+                "requirements_traceability_rate": 0.9,
+            },
+        }
+
+        scores = chart.chart_scores(summary)
+
+        self.assertEqual(scores["single_prompt"], [6, 4, 7, 5, 2])
+        self.assertEqual(scores["workflow_guided"], [8, 7, 9, 8, 9])
+
 
 if __name__ == "__main__":
     unittest.main()

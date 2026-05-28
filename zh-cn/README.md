@@ -43,6 +43,50 @@ Description: agent-workflows 库根 README 的简体中文翻译。
 <task description>
 ```
 
+## 为什么使用工作流，而不是单条提示词？
+
+差异通常不在于模型原始能力，而在于流程纪律：工作流会强制执行分诊、验证和交接步骤，而这些步骤往往会在临时式提示中被跳过。
+
+下图分数基于软件交付和代理评测中的常见经验判断，用来表达临时式提示与工作流引导执行之间的大致差异。若要运行对比，请使用上层目录中的评估套件 [evaluation/README.md](../evaluation/README.md)。
+
+工作流也有助于缓冲模型基座暗中降智带来的影响。如果底层模型在没有明显产品变化的情况下变得更不仔细、更不稳定或更不一致，工作流仍然会通过额外的检查点，尽量避免产出质量出现严重且隐蔽的下滑。
+
+```mermaid
+---
+config:
+  xychart:
+    width: 1100
+    xAxis:
+      labelFontSize: 12
+---
+xychart-beta
+    title "估算结果对比"
+    x-axis ["Pass@1", "RRC", "DER", "CFR", "RTM"]
+    y-axis "Score" 0 --> 10
+    bar "Single Prompt" [6, 4, 4, 4, 2]
+    bar "Workflow-Guided" [8, 7, 6, 6, 8]
+```
+
+图例：`蓝色 = Single Prompt`，`橙色 = Workflow-Guided`
+
+评分说明：所有柱子的分数都是越高越好。对 `DER` 和 `CFR` 来说，图里展示的是由这些指标换算后的正向质量分，所以柱子越高，表示缺陷逃逸率或变更失败率越低。
+
+指标说明：
+
+- `Pass@1`：单次尝试成功率。
+- `RRC`：重复运行一致性。
+- `DER`：缺陷逃逸率，但这里按“越高越好”的质量分表示。
+- `CFR`：变更失败率，但这里按“越高越好”的质量分表示。
+- `RTM`：需求可追踪性成熟度。
+
+解读：
+
+- `Pass@1` 只会小幅提升，因为工作流主要改善的是执行纪律，而不是模型本身的原始解题能力。
+- `Repeated-Run Consistency` 会更明显地提升，因为工作流通过稳定的分诊、实现、验证顺序降低了运行波动。
+- `Defect Escape Rate` 和 `Change Failure Rate` 会改善，但通常不会接近完美，因为工作流只能降低错误，不能消除测试薄弱、需求误解或高风险修改带来的问题。
+- `Requirements Traceability` 提升最明显，因为工作流会明确记录假设、范围、验证证据和后续事项。
+- 工作流对模型基座暗中降智也更有韧性，因为流程中的检查点更容易把质量下滑拦住，而单条提示词更可能让问题直接漏过去。
+
 ## 可用工作流
 
 - [project-initialization-agent-workflow.md](project-initialization-agent-workflow.md)：从需求到脚手架、验证和交接，启动一个新项目。

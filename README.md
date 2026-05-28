@@ -41,6 +41,52 @@ Use $workflow-automation to select the right workflow and execute it for this ta
 <task description>
 ```
 
+## Why Use Workflows Instead of a Single Prompt?
+
+The difference is usually not raw model capability. It is process discipline: workflows force triage, validation, and handoff steps that ad hoc prompting often skips.
+
+The below chart scores are based on common software-delivery and agent-evaluation expectations for ad hoc prompting versus workflow-guided execution. To run a comparison, use the evaluation kit in [evaluation/README.md](evaluation/README.md).
+
+Workflows also help absorb silent base-model quality drift. If the underlying model becomes less careful, less reliable, or less consistent without an obvious product change, the workflow still adds checkpoints that reduce the chance of a major hidden drop in output quality.
+
+
+```mermaid
+---
+config:
+  xychart:
+    width: 1100
+    xAxis:
+      labelFontSize: 12
+---
+xychart-beta
+    title "Estimated Outcome Comparison"
+    x-axis ["Pass@1", "RRC", "DER", "CFR", "RTM"]
+    y-axis "Score" 0 --> 10
+    bar "Single Prompt" [6, 4, 4, 4, 2]
+    bar "Workflow-Guided" [8, 7, 6, 6, 8]
+```
+
+Legend: `Blue = Single Prompt`, `Orange = Workflow-Guided`
+
+Scoring note: higher is better for every bar. For `DER` and `CFR`, the chart shows a favorable quality score derived from those metrics, so a higher bar means a lower defect escape rate or lower change failure rate.
+
+Metric key:
+
+- `Pass@1`: single-attempt success rate.
+- `RRC`: repeated-run consistency.
+- `DER`: defect escape rate, expressed here as a better-is-higher quality score.
+- `CFR`: change failure rate, expressed here as a better-is-higher quality score.
+- `RTM`: requirements traceability maturity.
+
+Interpretation:
+
+- These scores are estimates, not observed results from this repository.
+- `Pass@1` only improves modestly, because workflows help execution discipline more than they increase the model's raw problem-solving ability.
+- `Repeated-Run Consistency` improves more noticeably because workflows reduce variance by making the agent follow a stable sequence of triage, implementation, and validation steps.
+- `Defect Escape Rate` and `Change Failure Rate` improve, but not to near-perfect levels, because workflows reduce mistakes without eliminating weak tests, misunderstood requirements, or risky edits.
+- `Requirements Traceability` improves the most because workflows make assumptions, scope, validation evidence, and follow-up items explicit.
+- Workflows are also more resilient to silent base-model regressions, because process checkpoints catch quality drops that a one-shot prompt may otherwise let through unchecked.
+
 ## Available Workflows
 
 - [project-initialization-agent-workflow.md](project-initialization-agent-workflow.md): Bootstrap a new project from requirements through scaffolding, validation, and handoff.

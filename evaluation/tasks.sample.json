@@ -1,0 +1,37 @@
+{
+  "tasks": [
+    {
+      "task_id": "bugfix-auth-timeout-001",
+      "category": "bug-fix",
+      "prompt": "Users are being logged out during slow requests. Identify the root cause and implement a fix.",
+      "acceptance_criteria": [
+        "Bug is reproduced or failure mode is demonstrated from code or logs.",
+        "Fix addresses the root cause rather than hiding the symptom.",
+        "Relevant tests or validation commands pass.",
+        "No unrelated auth regressions are introduced."
+      ]
+    },
+    {
+      "task_id": "feature-export-csv-002",
+      "category": "feature",
+      "prompt": "Add CSV export for the report screen with proper empty-state handling and validation.",
+      "acceptance_criteria": [
+        "CSV export is reachable from the intended UI or command path.",
+        "Output format matches the requested columns.",
+        "Empty results are handled explicitly.",
+        "Tests or validation commands cover the new behavior."
+      ]
+    },
+    {
+      "task_id": "refactor-config-loader-003",
+      "category": "refactoring",
+      "prompt": "Refactor the configuration loader to reduce duplication without changing observable behavior.",
+      "acceptance_criteria": [
+        "Behavior remains unchanged for existing config paths.",
+        "Validation commands pass.",
+        "Refactor reduces duplication or clarifies structure.",
+        "No new warnings or regressions are introduced."
+      ]
+    }
+  ]
+}
