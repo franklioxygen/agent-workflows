@@ -45,30 +45,13 @@ Use $workflow-automation to select the right workflow and execute it for this ta
 
 The difference is usually not raw model capability. It is process discipline: workflows force triage, validation, and handoff steps that ad hoc prompting often skips.
 
-The below chart scores are based on common software-delivery and agent-evaluation expectations for ad hoc prompting versus workflow-guided execution. To run a comparison, use the evaluation kit in [evaluation/README.md](evaluation/README.md).
+The below estimated scores are based on common software-delivery and agent-evaluation expectations for ad hoc prompting versus workflow-guided execution. To run a comparison, use the evaluation kit in [evaluation/README.md](evaluation/README.md).
 
 Workflows also help absorb silent base-model quality drift. If the underlying model becomes less careful, less reliable, or less consistent without an obvious product change, the workflow still adds checkpoints that reduce the chance of a major hidden drop in output quality.
 
+![Estimated Outcome Comparison](assets/estimated-outcome-comparison.svg)
 
-```mermaid
----
-config:
-  xychart:
-    width: 1100
-    xAxis:
-      labelFontSize: 12
----
-xychart-beta
-    title "Estimated Outcome Comparison"
-    x-axis ["Pass@1", "RRC", "DER", "CFR", "RTM"]
-    y-axis "Score" 0 --> 10
-    bar "Single Prompt" [6, 4, 4, 4, 2]
-    bar "Workflow-Guided" [8, 7, 6, 6, 8]
-```
-
-Legend: `Blue = Single Prompt`, `Orange = Workflow-Guided`
-
-Scoring note: higher is better for every bar. For `DER` and `CFR`, the chart shows a favorable quality score derived from those metrics, so a higher bar means a lower defect escape rate or lower change failure rate.
+Scoring note: higher is better for every score. For `DER` and `CFR`, this table shows a favorable quality score derived from those metrics, so a higher score means a lower defect escape rate or lower change failure rate.
 
 Metric key:
 

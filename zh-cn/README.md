@@ -47,29 +47,13 @@ Description: agent-workflows 库根 README 的简体中文翻译。
 
 差异通常不在于模型原始能力，而在于流程纪律：工作流会强制执行分诊、验证和交接步骤，而这些步骤往往会在临时式提示中被跳过。
 
-下图分数基于软件交付和代理评测中的常见经验判断，用来表达临时式提示与工作流引导执行之间的大致差异。若要运行对比，请使用上层目录中的评估套件 [evaluation/README.md](../evaluation/README.md)。
+下表中的估算分数基于软件交付和代理评测中的常见经验判断，用来表达临时式提示与工作流引导执行之间的大致差异。若要运行对比，请使用上层目录中的评估套件 [evaluation/README.md](../evaluation/README.md)。
 
 工作流也有助于缓冲模型基座暗中降智带来的影响。如果底层模型在没有明显产品变化的情况下变得更不仔细、更不稳定或更不一致，工作流仍然会通过额外的检查点，尽量避免产出质量出现严重且隐蔽的下滑。
 
-```mermaid
----
-config:
-  xychart:
-    width: 1100
-    xAxis:
-      labelFontSize: 12
----
-xychart-beta
-    title "估算结果对比"
-    x-axis ["Pass@1", "RRC", "DER", "CFR", "RTM"]
-    y-axis "Score" 0 --> 10
-    bar "Single Prompt" [6, 4, 4, 4, 2]
-    bar "Workflow-Guided" [8, 7, 6, 6, 8]
-```
+![估算结果对比](../assets/estimated-outcome-comparison.zh-cn.svg)
 
-图例：`蓝色 = Single Prompt`，`橙色 = Workflow-Guided`
-
-评分说明：所有柱子的分数都是越高越好。对 `DER` 和 `CFR` 来说，图里展示的是由这些指标换算后的正向质量分，所以柱子越高，表示缺陷逃逸率或变更失败率越低。
+评分说明：所有分数都是越高越好。对 `DER` 和 `CFR` 来说，这里展示的是由这些指标换算后的正向质量分，所以分数越高，表示缺陷逃逸率或变更失败率越低。
 
 指标说明：
 
