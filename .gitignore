@@ -1,1 +1,4 @@
 AGENTS.local.md
+
+# Generated evaluation study outputs may include raw prompts, model output, logs, and cloned repos.
+evaluation/studies/

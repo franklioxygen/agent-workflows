@@ -1,36 +1,74 @@
 {
+  "rubric_version": "RUBRIC.md@v2.1.0",
+  "stratification": {
+    "categories": ["bug-fix", "feature", "refactor"],
+    "difficulties": ["S", "M", "L"]
+  },
   "tasks": [
     {
       "task_id": "bugfix-auth-timeout-001",
       "category": "bug-fix",
+      "difficulty": "M",
+      "source": "external-issue:example/repo#1421",
+      "brief_prompt": "Users are being logged out during slow requests. Fix the issue.",
       "prompt": "Users are being logged out during slow requests. Identify the root cause and implement a fix.",
       "acceptance_criteria": [
-        "Bug is reproduced or failure mode is demonstrated from code or logs.",
-        "Fix addresses the root cause rather than hiding the symptom.",
-        "Relevant tests or validation commands pass.",
-        "No unrelated auth regressions are introduced."
+        "The failure mode is reproduced from code or logs and the reproduction is recorded in the artifact.",
+        "The fix changes the root cause (session refresh / timeout handling), not a downstream symptom.",
+        "All commands in validation_commands exit 0 on the diff.",
+        "No unrelated auth or session behaviors regress (verified against acceptance tests listed below)."
+      ],
+      "validation_commands": [
+        "npm run test -- auth",
+        "npm run typecheck"
+      ],
+      "hidden_validation_commands": [
+        "npm run test -- tests/auth/session-regression.locked.test.ts"
+      ],
+      "acceptance_tests": [
+        "tests/auth/session.test.ts::test_refresh_window",
+        "tests/auth/sso.test.ts::test_login"
       ]
     },
     {
       "task_id": "feature-export-csv-002",
       "category": "feature",
+      "difficulty": "M",
+      "source": "external-issue:example/repo#1502",
       "prompt": "Add CSV export for the report screen with proper empty-state handling and validation.",
       "acceptance_criteria": [
-        "CSV export is reachable from the intended UI or command path.",
-        "Output format matches the requested columns.",
-        "Empty results are handled explicitly.",
-        "Tests or validation commands cover the new behavior."
+        "CSV export is reachable from the documented UI or command path.",
+        "Output columns and order match the spec attached to the source issue.",
+        "Empty results produce a defined output (header row only) rather than an error.",
+        "Validation commands cover the new behavior and exit 0."
+      ],
+      "validation_commands": [
+        "npm run test -- reports",
+        "npm run lint"
+      ],
+      "acceptance_tests": [
+        "tests/reports/csv.test.ts::test_columns",
+        "tests/reports/csv.test.ts::test_empty_state"
       ]
     },
     {
       "task_id": "refactor-config-loader-003",
-      "category": "refactoring",
+      "category": "refactor",
+      "difficulty": "S",
+      "source": "external-issue:example/repo#1611",
       "prompt": "Refactor the configuration loader to reduce duplication without changing observable behavior.",
       "acceptance_criteria": [
-        "Behavior remains unchanged for existing config paths.",
-        "Validation commands pass.",
-        "Refactor reduces duplication or clarifies structure.",
-        "No new warnings or regressions are introduced."
+        "All existing config paths produce identical loaded values (verified by snapshot tests).",
+        "Validation commands exit 0.",
+        "At least two duplicate branches are unified into a shared helper or table.",
+        "No new warnings, deprecations, or behavior changes are introduced."
+      ],
+      "validation_commands": [
+        "npm run test -- config",
+        "npm run typecheck"
+      ],
+      "acceptance_tests": [
+        "tests/config/loader.snapshot.test.ts"
       ]
     }
   ]

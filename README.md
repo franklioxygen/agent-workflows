@@ -45,29 +45,28 @@ Use $workflow-automation to select the right workflow and execute it for this ta
 
 The difference is usually not raw model capability. It is process discipline: workflows force triage, validation, and handoff steps that ad hoc prompting often skips.
 
-The below estimated scores are based on common software-delivery and agent-evaluation expectations for ad hoc prompting versus workflow-guided execution. To run a comparison, use the evaluation kit in [evaluation/README.md](evaluation/README.md).
-
 Workflows also help absorb silent base-model quality drift. If the underlying model becomes less careful, less reliable, or less consistent without an obvious product change, the workflow still adds checkpoints that reduce the chance of a major hidden drop in output quality.
 
-![Estimated Outcome Comparison](assets/estimated-outcome-comparison.svg)
+The chart below comes from a 6-task exploratory Claude Code study. The full statistical protocol (blinded scoring, bootstrap confidence intervals, paired permutation tests with Holm–Bonferroni correction, inter-rater agreement) is defined in [evaluation/README.md](evaluation/README.md).
 
-Scoring note: higher is better for every score. For `DER` and `CFR`, this table shows a favorable quality score derived from those metrics, so a higher score means a lower defect escape rate or lower change failure rate.
+![Measured Outcome Comparison](assets/estimated-outcome-comparison.svg)
+
+Scoring note: higher is better for every score.
 
 Metric key:
 
-- `Pass@1`: single-attempt success rate.
-- `RRC`: repeated-run consistency.
-- `DER`: defect escape rate, expressed here as a better-is-higher quality score.
-- `CFR`: change failure rate, expressed here as a better-is-higher quality score.
-- `RTM`: requirements traceability maturity.
+- `TPR`: task pass rate — average task-level pass rate across repeated runs.
+- `RP@k`: reliable pass at k — share of tasks where every repeated run passes.
+- `CPR`: clean pass rate — share of runs that pass, validate, introduce no regression, and need no rework.
+- `RFR`: regression-free rate — share of runs with no unrelated regression and, when declared, passing locked evaluator checks.
+- `NRR`: no-rework rate — share of runs that need no repair pass.
 
 Interpretation:
 
-- These scores are estimates, not observed results from this repository.
-- `Pass@1` only improves modestly, because workflows help execution discipline more than they increase the model's raw problem-solving ability.
-- `Repeated-Run Consistency` improves more noticeably because workflows reduce variance by making the agent follow a stable sequence of triage, implementation, and validation steps.
-- `Defect Escape Rate` and `Change Failure Rate` improve, but not to near-perfect levels, because workflows reduce mistakes without eliminating weak tests, misunderstood requirements, or risky edits.
-- `Requirements Traceability` improves the most because workflows make assumptions, scope, validation evidence, and follow-up items explicit.
+- `Task Pass Rate` improves because workflows help execution discipline and validation, not because they change the underlying model's raw capability.
+- `Reliable Pass@k` improves more noticeably because workflows reduce variance by making the agent follow a stable sequence of triage, implementation, and validation steps.
+- `Clean Pass Rate` is the strictest headline quality metric because a run must pass acceptance criteria, pass validation, avoid unrelated regressions, and need no repair pass.
+- `Regression-Free Rate` and `No-Rework Rate` improve because workflows reduce mistakes by enforcing baseline capture, hidden regression/evaluator checks, and post-change revalidation.
 - Workflows are also more resilient to silent base-model regressions, because process checkpoints catch quality drops that a one-shot prompt may otherwise let through unchecked.
 
 ## Available Workflows
